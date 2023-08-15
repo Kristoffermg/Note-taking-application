@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             this.NoteInput = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.AddNote = new System.Windows.Forms.Button();
             this.HeaderNotes = new System.Windows.Forms.DataGridView();
+            this.addNoteTitle = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,14 +43,15 @@
             this.NoteInput.TabIndex = 1;
             this.NoteInput.Text = "";
             // 
-            // button1
+            // AddNote
             // 
-            this.button1.Location = new System.Drawing.Point(43, 595);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(26, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "+";
-            this.button1.UseVisualStyleBackColor = true;
+            this.AddNote.Location = new System.Drawing.Point(156, 595);
+            this.AddNote.Name = "AddNote";
+            this.AddNote.Size = new System.Drawing.Size(96, 23);
+            this.AddNote.TabIndex = 3;
+            this.AddNote.Text = "+";
+            this.AddNote.UseVisualStyleBackColor = true;
+            this.AddNote.Click += new System.EventHandler(this.AddNote_Click);
             // 
             // HeaderNotes
             // 
@@ -59,27 +61,38 @@
             this.HeaderNotes.Size = new System.Drawing.Size(240, 577);
             this.HeaderNotes.TabIndex = 4;
             // 
+            // addNoteTitle
+            // 
+            this.addNoteTitle.Location = new System.Drawing.Point(12, 598);
+            this.addNoteTitle.Name = "addNoteTitle";
+            this.addNoteTitle.Size = new System.Drawing.Size(138, 20);
+            this.addNoteTitle.TabIndex = 5;
+            this.addNoteTitle.KeyDown += new System.Windows.Forms.KeyEventHandler(this.addNoteTitle_KeyDown);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1048, 645);
+            this.Controls.Add(this.addNoteTitle);
             this.Controls.Add(this.HeaderNotes);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.AddNote);
             this.Controls.Add(this.NoteInput);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.RichTextBox NoteInput;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button AddNote;
         private System.Windows.Forms.DataGridView HeaderNotes;
+        private System.Windows.Forms.TextBox addNoteTitle;
     }
 }
 
