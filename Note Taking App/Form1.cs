@@ -19,6 +19,7 @@ namespace Note_Taking_App
         string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
         bool headerNotesAreDisplayed = true;
         DataTable notes = new DataTable();
+        IDataAccess dataAccess = new DataAccess();
         public Form1()
         {
             // form DataTables for the notes
@@ -29,10 +30,9 @@ namespace Note_Taking_App
         {
             notes.Columns.Add("Title");
 
-            IDataAccess dataAccess = new DataAccess();
             string query = "SELECT id, title FROM HeaderNotes";
             List<HeaderNotes> headerNotes = await dataAccess.LoadData<HeaderNotes, dynamic>(query, new { }, connectionString);
-            
+            headerNotes.Sort();
             foreach(HeaderNotes headerNote in headerNotes)
             {
                 notes.Rows.Add(headerNote.title);
@@ -41,13 +41,13 @@ namespace Note_Taking_App
             HeaderNotes.DataSource = notes;
         }
 
-        private void AddNote_Click(object sender, EventArgs e)
+        private async void AddNote_Click(object sender, EventArgs e)
         {
-            IDataAccess dataAccess = new DataAccess();
             string query = "";
+            int orderid = GetOrderId();
             if (headerNotesAreDisplayed)
             {
-                query = $"INSERT INTO HeaderNotes (title) VALUES('{addNoteTitle.Text}')";
+                query = $"INSERT INTO HeaderNotes (title, orderid) VALUES('{addNoteTitle.Text}', {++orderid})";
                 dataAccess.InsertData<HeaderNotes, dynamic>(query, new { }, connectionString);
                 notes.Rows.Add(addNoteTitle.Text);
             }
@@ -57,6 +57,20 @@ namespace Note_Taking_App
             }
         }
 
+        private int GetOrderId()
+        {
+            int orderid = 0;
+            if(headerNotesAreDisplayed)
+            {
+                orderid = dataAccess.LoadOrderId("SELECT MAX(orderid) FROM HeaderNotes", connectionString);
+            }
+            else
+            {
+                orderid = dataAccess.LoadOrderId("SELECT MAX(orderid) FROM ChildNotes", connectionString);
+            }
+            return orderid;
+        }
+
         private void addNoteTitle_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter && addNoteTitle.Text != string.Empty)
@@ -64,6 +78,18 @@ namespace Note_Taking_App
                 AddNote_Click(sender, e);
                 addNoteTitle.Clear();
                 e.SuppressKeyPress = true;
+            }
+        }
+
+        private void SortBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedSortBy = SortBy.Text;
+            switch(selectedSortBy)
+            {
+                case "Custom":
+                    break;
+                case "Alphabetically":
+                    break;
             }
         }
     }

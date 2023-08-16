@@ -25,5 +25,17 @@ namespace Note_Taking_App.SQL
                 await connection.QueryAsync<T>(query, parameters);
             }
         }
+
+        public int LoadOrderId(string query, string connectionString)
+        {
+            using (IDbConnection connection = new MySqlConnection(connectionString))
+            {
+                var row = connection.QueryAsync(query);
+
+                
+
+                return 0;
+            }
+        }
     }
 }

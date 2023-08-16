@@ -10,6 +10,7 @@ namespace Note_Taking_App.Data
     {
         public int id;
         public int header_id;
+        public int orderid;
         string title;
         string content;
     }
