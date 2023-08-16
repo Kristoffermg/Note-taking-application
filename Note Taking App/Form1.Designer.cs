@@ -32,6 +32,7 @@
             this.AddNote = new System.Windows.Forms.Button();
             this.HeaderNotes = new System.Windows.Forms.DataGridView();
             this.addNoteTitle = new System.Windows.Forms.TextBox();
+            this.SortBy = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,9 +57,12 @@
             // HeaderNotes
             // 
             this.HeaderNotes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.HeaderNotes.Location = new System.Drawing.Point(12, 12);
+            this.HeaderNotes.ColumnHeadersVisible = false;
+            this.HeaderNotes.GridColor = System.Drawing.SystemColors.Control;
+            this.HeaderNotes.Location = new System.Drawing.Point(12, 47);
             this.HeaderNotes.Name = "HeaderNotes";
-            this.HeaderNotes.Size = new System.Drawing.Size(240, 577);
+            this.HeaderNotes.RowHeadersVisible = false;
+            this.HeaderNotes.Size = new System.Drawing.Size(240, 542);
             this.HeaderNotes.TabIndex = 4;
             // 
             // addNoteTitle
@@ -69,11 +73,23 @@
             this.addNoteTitle.TabIndex = 5;
             this.addNoteTitle.KeyDown += new System.Windows.Forms.KeyEventHandler(this.addNoteTitle_KeyDown);
             // 
+            // SortBy
+            // 
+            this.SortBy.FormattingEnabled = true;
+            this.SortBy.Items.AddRange(new object[] {
+            "Custom",
+            "Alphabetically"});
+            this.SortBy.Location = new System.Drawing.Point(59, 12);
+            this.SortBy.Name = "SortBy";
+            this.SortBy.Size = new System.Drawing.Size(121, 21);
+            this.SortBy.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1048, 645);
+            this.Controls.Add(this.SortBy);
             this.Controls.Add(this.addNoteTitle);
             this.Controls.Add(this.HeaderNotes);
             this.Controls.Add(this.AddNote);
@@ -93,6 +109,7 @@
         private System.Windows.Forms.Button AddNote;
         private System.Windows.Forms.DataGridView HeaderNotes;
         private System.Windows.Forms.TextBox addNoteTitle;
+        private System.Windows.Forms.ComboBox SortBy;
     }
 }
 

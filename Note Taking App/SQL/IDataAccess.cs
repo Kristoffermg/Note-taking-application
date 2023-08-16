@@ -7,5 +7,6 @@ namespace Note_Taking_App.SQL
     {
         Task<List<T>> LoadData<T, U>(string query, U parameters, string connectionString);
         void InsertData<T, U>(string query, U parameters, string connectionString);
+        int LoadSingularDataValue(string query, string connectionString);
     }
 }
