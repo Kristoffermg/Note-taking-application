@@ -42,7 +42,6 @@
             this.NoteInput.Size = new System.Drawing.Size(736, 542);
             this.NoteInput.TabIndex = 1;
             this.NoteInput.Text = "";
-            this.NoteInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteInput_KeyDown);
             // 
             // AddNote
             // 
@@ -56,22 +55,11 @@
             // 
             // HeaderNotes
             // 
-            this.HeaderNotes.BackgroundColor = System.Drawing.SystemColors.Control;
             this.HeaderNotes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-<<<<<<< Updated upstream
             this.HeaderNotes.Location = new System.Drawing.Point(12, 12);
             this.HeaderNotes.Name = "HeaderNotes";
             this.HeaderNotes.Size = new System.Drawing.Size(240, 577);
-=======
-            this.HeaderNotes.ColumnHeadersVisible = false;
-            this.HeaderNotes.Location = new System.Drawing.Point(12, 47);
-            this.HeaderNotes.Name = "HeaderNotes";
-            this.HeaderNotes.RowHeadersVisible = false;
-            this.HeaderNotes.RowHeadersWidth = 80;
-            this.HeaderNotes.Size = new System.Drawing.Size(240, 542);
->>>>>>> Stashed changes
             this.HeaderNotes.TabIndex = 4;
-            this.HeaderNotes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HeaderNotes_CellClick);
             // 
             // addNoteTitle
             // 
@@ -92,7 +80,6 @@
             this.Controls.Add(this.NoteInput);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).EndInit();
             this.ResumeLayout(false);

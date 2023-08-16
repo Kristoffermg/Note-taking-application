@@ -7,9 +7,5 @@ namespace Note_Taking_App.SQL
     {
         Task<List<T>> LoadData<T, U>(string query, U parameters, string connectionString);
         void InsertData<T, U>(string query, U parameters, string connectionString);
-<<<<<<< Updated upstream
-=======
-        int LoadSingularDataValue(string query, string connectionString);
->>>>>>> Stashed changes
     }
 }
