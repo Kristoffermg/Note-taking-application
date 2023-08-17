@@ -32,6 +32,8 @@ namespace Note_Taking_App
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            GetAllChildNotes();
+
             notes.Columns.Add("Title");
 
             IDataAccess dataAccess = new DataAccess();
@@ -44,6 +46,17 @@ namespace Note_Taking_App
             }
 
             HeaderNotes.DataSource = notes;
+        }
+
+        private async void GetAllChildNotes()
+        {
+            string query = "SELECT headerID, content from ChildNotes";
+            List<ChildNotes> childNotes = await dataAccess.LoadData<ChildNotes, dynamic>(query, new { }, connectionString);
+
+            foreach(ChildNotes childNote in childNotes)
+            {
+                allChildNotes.Add(childNote.headerID, childNote.content);
+            }
         }
 
         private void AddNote_Click(object sender, EventArgs e)

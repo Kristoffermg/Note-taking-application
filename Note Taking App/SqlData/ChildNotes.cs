@@ -9,8 +9,8 @@ namespace Note_Taking_App.Data
     internal class ChildNotes
     {
         public int id;
-        public int header_id;
-        string title;
-        string content;
+        public int headerID;
+        public string title;
+        public string content;
     }
 }
