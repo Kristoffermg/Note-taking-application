@@ -36,6 +36,7 @@
             this.addNoteTitle = new System.Windows.Forms.TextBox();
             this.SortBy = new System.Windows.Forms.ComboBox();
             this.ChildNotes = new System.Windows.Forms.DataGridView();
+            this.backToHeaderBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChildNotes)).BeginInit();
             this.SuspendLayout();
@@ -47,6 +48,7 @@
             this.NoteInput.Size = new System.Drawing.Size(736, 542);
             this.NoteInput.TabIndex = 1;
             this.NoteInput.Text = "";
+            this.NoteInput.Visible = false;
             this.NoteInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteInput_KeyDown_1);
             // 
             // AddNote
@@ -123,7 +125,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ChildNotes.DefaultCellStyle = dataGridViewCellStyle2;
             this.ChildNotes.GridColor = System.Drawing.SystemColors.Control;
-            this.ChildNotes.Location = new System.Drawing.Point(0, 39);
+            this.ChildNotes.Location = new System.Drawing.Point(3, 37);
             this.ChildNotes.Name = "ChildNotes";
             this.ChildNotes.RowHeadersVisible = false;
             this.ChildNotes.Size = new System.Drawing.Size(240, 542);
@@ -131,11 +133,23 @@
             this.ChildNotes.Visible = false;
             this.ChildNotes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChildNotes_CellContentClick);
             // 
+            // backToHeaderBtn
+            // 
+            this.backToHeaderBtn.Enabled = false;
+            this.backToHeaderBtn.Location = new System.Drawing.Point(168, 13);
+            this.backToHeaderBtn.Name = "backToHeaderBtn";
+            this.backToHeaderBtn.Size = new System.Drawing.Size(75, 23);
+            this.backToHeaderBtn.TabIndex = 8;
+            this.backToHeaderBtn.Text = "<-";
+            this.backToHeaderBtn.UseVisualStyleBackColor = true;
+            this.backToHeaderBtn.Click += new System.EventHandler(this.backToHeaderBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1048, 645);
+            this.Controls.Add(this.backToHeaderBtn);
             this.Controls.Add(this.ChildNotes);
             this.Controls.Add(this.SortBy);
             this.Controls.Add(this.addNoteTitle);
@@ -160,6 +174,7 @@
         private System.Windows.Forms.TextBox addNoteTitle;
         private System.Windows.Forms.ComboBox SortBy;
         private System.Windows.Forms.DataGridView ChildNotes;
+        private System.Windows.Forms.Button backToHeaderBtn;
     }
 }
 

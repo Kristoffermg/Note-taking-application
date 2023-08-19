@@ -130,7 +130,6 @@ namespace Note_Taking_App
 
         private void NoteInput_KeyDown(object sender, KeyEventArgs e)
         {
-            int test = 1;
             if((ModifierKeys & Keys.Control) == Keys.Control && e.KeyCode == Keys.S)
             {
                 SaveCurrentNote();
@@ -152,8 +151,11 @@ namespace Note_Taking_App
             string query = $"SELECT * FROM ChildNotes WHERE headerID = {currentHeaderNoteSelected}";
             List<ChildNotes> currentChildNotes = await dataAccess.LoadData<ChildNotes, dynamic>(query, new { }, connectionString);
 
+            headerNotesAreDisplayed = false;
             HeaderNotes.Visible = false;
             ChildNotes.Visible = true;
+            backToHeaderBtn.Enabled = true;
+            NoteInput.Visible = true;
             DisplayChildNotes(currentChildNotes);
         }
 
@@ -168,6 +170,7 @@ namespace Note_Taking_App
             }
 
             ChildNotes.DataSource = childNotesMenu;
+            NoteInput.Text = allChildNotes[currentChildNoteSelected];
         }
 
         private void ChildNotes_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -187,6 +190,17 @@ namespace Note_Taking_App
             {
                 SaveCurrentNote();
             }
+        }
+
+        private void backToHeaderBtn_Click(object sender, EventArgs e)
+        {
+            headerNotesAreDisplayed = true;
+            HeaderNotes.Visible = true;
+            ChildNotes.Visible = false;
+            backToHeaderBtn.Enabled = false;
+            NoteInput.Visible = false;
+            NoteInput.Clear();
+            allChildNotes.Clear();
         }
     }
 }
