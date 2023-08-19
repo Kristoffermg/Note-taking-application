@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Note_Taking_App.Data;
 
 namespace Note_Taking_App.SQL
 {
     public class DataAccess : IDataAccess
     {
-        public async Task<List<T>> LoadData<T, U>(string query, U parameters, string connectionString)
+        public async Task<List<T>> LoadDataAsync<T, U>(string query, U parameters, string connectionString)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
@@ -18,6 +19,17 @@ namespace Note_Taking_App.SQL
                 return rows.ToList();
             }
         }
+
+        public List<ChildNotes> LoadData<T, U>(string query, U parameters, string connectionString)
+        {
+            using (IDbConnection connection = new MySqlConnection(connectionString))
+            {
+                var rows = connection.QueryAsync<T>(query, parameters);
+
+                return null;
+            }
+        }
+
         public async Task InsertData<T, U>(string query, U parameters, string connectionString)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))

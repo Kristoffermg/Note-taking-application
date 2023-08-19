@@ -121,18 +121,20 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ControlLightLight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlDarkDark;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ChildNotes.DefaultCellStyle = dataGridViewCellStyle2;
             this.ChildNotes.GridColor = System.Drawing.SystemColors.Control;
             this.ChildNotes.Location = new System.Drawing.Point(3, 37);
+            this.ChildNotes.MultiSelect = false;
             this.ChildNotes.Name = "ChildNotes";
             this.ChildNotes.RowHeadersVisible = false;
+            this.ChildNotes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.ChildNotes.Size = new System.Drawing.Size(240, 542);
             this.ChildNotes.TabIndex = 7;
             this.ChildNotes.Visible = false;
-            this.ChildNotes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChildNotes_CellContentClick);
+            this.ChildNotes.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChildNotes_CellEnter);
             // 
             // backToHeaderBtn
             // 

@@ -20,14 +20,15 @@ namespace Note_Taking_App
 
         string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
         bool headerNotesAreDisplayed = true;
+        bool childNotesMenuDisplayed = false;
         int latestHeaderNoteId = 0;
         int currentHeaderNoteSelected = 1;
         int currentChildNoteSelected = 1;
         Dictionary<int, string> allChildNotes = new Dictionary<int, string>();
-        //Dictionary<int, string> allChildNotes = new Dictionary<int, string>();
         DataTable headerNotesMenu = new DataTable();
         DataTable childNotesMenu = new DataTable();
         IDataAccess dataAccess = new DataAccess();
+
         public Form1()
         {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace Note_Taking_App
 
             IDataAccess dataAccess = new DataAccess();
             string query = "SELECT id, title FROM HeaderNotes";
-            List<HeaderNotes> headerNotes = await dataAccess.LoadData<HeaderNotes, dynamic>(query, new { }, connectionString);
+            List<HeaderNotes> headerNotes = await dataAccess.LoadDataAsync<HeaderNotes, dynamic>(query, new { }, connectionString);
 
             foreach (HeaderNotes headerNote in headerNotes)
             {
@@ -49,9 +50,6 @@ namespace Note_Taking_App
             }
 
             HeaderNotes.DataSource = headerNotesMenu;
-
-            query = "SELECT MAX(id) FROM HeaderNotes";
-
             latestHeaderNoteId = headerNotesMenu.Rows.Count;
         }
 
@@ -156,7 +154,7 @@ namespace Note_Taking_App
             currentHeaderNoteSelected = e.RowIndex + 1;
 
             string query = $"SELECT * FROM ChildNotes WHERE headerID = {currentHeaderNoteSelected}";
-            List<ChildNotes> currentChildNotes = await dataAccess.LoadData<ChildNotes, dynamic>(query, new { }, connectionString);
+            List<ChildNotes> currentChildNotes = await dataAccess.LoadDataAsync<ChildNotes, dynamic>(query, new { }, connectionString);
 
             headerNotesAreDisplayed = false;
             HeaderNotes.Visible = false;
@@ -174,26 +172,26 @@ namespace Note_Taking_App
                 childNotesMenu.Rows.Add(childNote.title);
                 allChildNotes.Add(childNote.orderid, childNote.content);
             }
-            var test = allChildNotes;
             ChildNotes.DataSource = childNotesMenu;
+
             if(allChildNotes.Count >= 1)
                 NoteInput.Text = allChildNotes[currentChildNoteSelected];
+
+            childNotesMenuDisplayed = true;
         }
 
-        private void ChildNotes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void ChildNotes_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (childNotesMenuDisplayed == false) return;
             currentChildNoteSelected = e.RowIndex + 1;
             DisplayChildNoteContent();
         }
 
         private void DisplayChildNoteContent()
         {
+            var test1 = allChildNotes;
+            int test2 = currentChildNoteSelected;
             NoteInput.Text = allChildNotes[currentChildNoteSelected];
-        }
-
-        private void DisplayChildNoteSelection()
-        {
-
         }
 
         private void NoteInput_KeyDown_1(object sender, KeyEventArgs e)
@@ -211,6 +209,8 @@ namespace Note_Taking_App
             ChildNotes.Visible = false;
             backToHeaderBtn.Enabled = false;
             NoteInput.Visible = false;
+            childNotesMenuDisplayed = false;
+            currentChildNoteSelected = 1;
             NoteInput.Clear();
             allChildNotes.Clear();
             childNotesMenu.Clear();
