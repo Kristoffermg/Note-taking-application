@@ -35,5 +35,13 @@ namespace Note_Taking_App.SQL
                 return result.value;
             }
         }
+
+        public async void UpdateData<U>(string query, U parameters, string connectionString)
+        {
+            using (IDbConnection connection = new MySqlConnection(connectionString))
+            {
+                await connection.QueryAsync(query, parameters);
+            }
+        }
     }
 }

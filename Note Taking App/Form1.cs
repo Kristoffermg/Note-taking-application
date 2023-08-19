@@ -20,21 +20,22 @@ namespace Note_Taking_App
 
         string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
         bool headerNotesAreDisplayed = true;
-        int currentHeaderNoteSelected = 0;
+        int currentHeaderNoteSelected = 1;
+        int currentChildNoteSelected = 0;
         Dictionary<int, string> allChildNotes = new Dictionary<int, string>();
-        DataTable notes = new DataTable();
+        //Dictionary<int, string> allChildNotes = new Dictionary<int, string>();
+        DataTable headerNotesMenu = new DataTable();
         IDataAccess dataAccess = new DataAccess();
         public Form1()
         {
-            // TODO: form the allChildNotes dictionary
             InitializeComponent();
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            GetAllChildNotes();
+            //GetAllChildNotes();
 
-            notes.Columns.Add("Title");
+            headerNotesMenu.Columns.Add("Title");
 
             IDataAccess dataAccess = new DataAccess();
             string query = "SELECT id, title FROM HeaderNotes";
@@ -42,22 +43,22 @@ namespace Note_Taking_App
 
             foreach (HeaderNotes headerNote in headerNotes)
             {
-                notes.Rows.Add(headerNote.title);
+                headerNotesMenu.Rows.Add(headerNote.title);
             }
 
-            HeaderNotes.DataSource = notes;
+            HeaderNotes.DataSource = headerNotesMenu;
         }
 
-        private async void GetAllChildNotes()
-        {
-            string query = "SELECT headerID, content from ChildNotes";
-            List<ChildNotes> childNotes = await dataAccess.LoadData<ChildNotes, dynamic>(query, new { }, connectionString);
+        //private async void GetAllChildNotes()
+        //{
+        //    string query = "SELECT headerID, content from ChildNotes";
+        //    List<ChildNotes> childNotes = await dataAccess.LoadData<ChildNotes, dynamic>(query, new { }, connectionString);
 
-            foreach(ChildNotes childNote in childNotes)
-            {
-                allChildNotes.Add(childNote.headerID, childNote.content);
-            }
-        }
+        //    foreach(ChildNotes childNote in childNotes)
+        //    {
+        //        allChildNotes.Add(childNote.headerID, childNote.content);
+        //    }
+        //}
 
         private void AddNote_Click(object sender, EventArgs e)
         {
@@ -69,18 +70,17 @@ namespace Note_Taking_App
                 {
                     query = $"INSERT INTO HeaderNotes (title, orderid) VALUES('{addNoteTitle.Text}', {orderid + 1})";
                     dataAccess.InsertData<HeaderNotes, dynamic>(query, new { }, connectionString);
-                    notes.Rows.Add(addNoteTitle.Text);
+                    headerNotesMenu.Rows.Add(addNoteTitle.Text);
 
                     query = $"SELECT MAX(id) AS value FROM HeaderNotes";
                     int headerID = dataAccess.LoadSingularDataValue(query, connectionString);
 
-                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({headerID}, 'New Note', '', {headerID})"; // TODO: change orderid value
-                    dataAccess.InsertData<HeaderNotes, dynamic>(query, new { }, connectionString);
+                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({headerID}, 'New Note', '', 0)"; // TODO: change orderid value
+                    dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
 
-                    // TODO: store the new data in the allChildNotes dictionary
                 }
-                else
-                {
+                else { 
+                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({currentHeaderNoteSelected}, 'New Note', '', 0)"; // TODO: change orderid value
                     dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
                 }
             }
@@ -123,13 +123,6 @@ namespace Note_Taking_App
             }
         }
 
-        private void HeaderNotes_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int test = e.RowIndex;
-
-            
-        }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveCurrentNote();
@@ -137,6 +130,7 @@ namespace Note_Taking_App
 
         private void NoteInput_KeyDown(object sender, KeyEventArgs e)
         {
+            int test = 1;
             if((ModifierKeys & Keys.Control) == Keys.Control && e.KeyCode == Keys.S)
             {
                 SaveCurrentNote();
@@ -145,7 +139,54 @@ namespace Note_Taking_App
 
         private void SaveCurrentNote()
         {
+            string query = $"UPDATE ChildNotes SET content='{NoteInput.Text}' WHERE headerID={currentHeaderNoteSelected} AND orderid={currentChildNoteSelected}";
+            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+
             // TODO: also add integration for when you switch to another note so it always saves
+        }
+
+        private async void HeaderNotes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            currentHeaderNoteSelected = e.RowIndex + 1;
+
+            string query = $"SELECT * FROM ChildNotes WHERE headerID = {currentHeaderNoteSelected}";
+            List<ChildNotes> currentChildNotes = await dataAccess.LoadData<ChildNotes, dynamic>(query, new { }, connectionString);
+
+            HeaderNotes.Visible = false;
+            ChildNotes.Visible = true;
+            DisplayChildNotes(currentChildNotes);
+        }
+
+        private void DisplayChildNotes(List<ChildNotes> currentChildNotes)
+        {
+            DataTable childNotesMenu = new DataTable();
+            childNotesMenu.Columns.Add("Title");
+            foreach (ChildNotes childNote in currentChildNotes)
+            {
+                childNotesMenu.Rows.Add(childNote.title);
+                allChildNotes.Add(childNote.orderid, childNote.content);
+            }
+
+            ChildNotes.DataSource = childNotesMenu;
+        }
+
+        private void ChildNotes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            currentChildNoteSelected = e.RowIndex;
+            DisplayChildNoteContent();
+        }
+
+        private void DisplayChildNoteContent()
+        {
+            NoteInput.Text = allChildNotes[currentChildNoteSelected];
+        }
+
+        private void NoteInput_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if ((ModifierKeys & Keys.Control) == Keys.Control && e.KeyCode == Keys.S)
+            {
+                SaveCurrentNote();
+            }
         }
     }
 }

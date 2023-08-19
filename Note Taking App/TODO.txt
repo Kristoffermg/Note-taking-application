@@ -1,0 +1,15 @@
+﻿
+
+
+HIGH PRIORITY:
+	1. Separate the creation of new notes between header and child notes
+
+
+
+MID PRIORITY:
+	1. Only change cursor for Datagrid when hovering over a cell 
+
+
+
+LOW PRIORITY:
+	1.

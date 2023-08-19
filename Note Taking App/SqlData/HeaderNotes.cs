@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Note_Taking_App.Data
 {
-    internal class HeaderNotes
+    public class HeaderNotes
     {
         public int id;
         public string title;
