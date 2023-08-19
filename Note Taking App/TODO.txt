@@ -14,4 +14,4 @@ MID PRIORITY:
 
 
 LOW PRIORITY:
-	1.
+	1. Find another way to edit a cells name, so that you dont have to double click the header notes to open them, rather than single click

@@ -84,9 +84,16 @@ namespace Note_Taking_App
                 else {
                     int nextChildOrderId = GetMaxOrderId(false) + 1;
                     childNotesMenu.Rows.Add(addNoteTitle.Text);
-                    allChildNotes.Add(nextChildOrderId, "");
-                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({currentHeaderNoteSelected}, '{addNoteTitle.Text}', '', {nextChildOrderId})"; // TODO: change orderid value
-                    await dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
+                    try
+                    {
+                        allChildNotes.Add(nextChildOrderId, "");
+                        query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({currentHeaderNoteSelected}, '{addNoteTitle.Text}', '', {nextChildOrderId})"; // TODO: change orderid value
+                        await dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("You're adding notes too quickly!");
+                    }
                 }
             }
         }
@@ -133,35 +140,14 @@ namespace Note_Taking_App
             SaveCurrentNote();
         }
 
-        private void NoteInput_KeyDown(object sender, KeyEventArgs e)
-        {
-            if((ModifierKeys & Keys.Control) == Keys.Control && e.KeyCode == Keys.S)
-            {
-                SaveCurrentNote();
-            }
-        }
-
         private void SaveCurrentNote()
         {
             string query = $"UPDATE ChildNotes SET content='{NoteInput.Text}' WHERE headerID={currentHeaderNoteSelected} AND orderid={currentChildNoteSelected}";
             dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
 
+            allChildNotes[currentChildNoteSelected] = NoteInput.Text;
+
             // TODO: also add integration for when you switch to another note so it always saves
-        }
-
-        private async void HeaderNotes_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            currentHeaderNoteSelected = e.RowIndex + 1;
-
-            string query = $"SELECT * FROM ChildNotes WHERE headerID = {currentHeaderNoteSelected}";
-            List<ChildNotes> currentChildNotes = await dataAccess.LoadDataAsync<ChildNotes, dynamic>(query, new { }, connectionString);
-
-            headerNotesAreDisplayed = false;
-            HeaderNotes.Visible = false;
-            ChildNotes.Visible = true;
-            backToHeaderBtn.Enabled = true;
-            if(currentChildNotes.Count >= 1) NoteInput.Visible = true;
-            DisplayChildNotes(currentChildNotes);
         }
 
         private void DisplayChildNotes(List<ChildNotes> currentChildNotes)
@@ -180,6 +166,21 @@ namespace Note_Taking_App
             childNotesMenuDisplayed = true;
         }
 
+        private async void HeaderNotes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            currentHeaderNoteSelected = e.RowIndex + 1;
+
+            string query = $"SELECT * FROM ChildNotes WHERE headerID = {currentHeaderNoteSelected}";
+            List<ChildNotes> currentChildNotes = await dataAccess.LoadDataAsync<ChildNotes, dynamic>(query, new { }, connectionString);
+
+            headerNotesAreDisplayed = false;
+            HeaderNotes.Visible = false;
+            ChildNotes.Visible = true;
+            backToHeaderBtn.Enabled = true;
+            if (currentChildNotes.Count >= 1) NoteInput.Visible = true;
+            DisplayChildNotes(currentChildNotes);
+        }
+
         private void ChildNotes_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (childNotesMenuDisplayed == false) return;
@@ -192,14 +193,6 @@ namespace Note_Taking_App
             var test1 = allChildNotes;
             int test2 = currentChildNoteSelected;
             NoteInput.Text = allChildNotes[currentChildNoteSelected];
-        }
-
-        private void NoteInput_KeyDown_1(object sender, KeyEventArgs e)
-        {
-            if ((ModifierKeys & Keys.Control) == Keys.Control && e.KeyCode == Keys.S)
-            {
-                SaveCurrentNote();
-            }
         }
 
         private void backToHeaderBtn_Click(object sender, EventArgs e)
@@ -230,6 +223,49 @@ namespace Note_Taking_App
             dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
 
             query = "ALTER TABLE ChildNotes AUTO_INCREMENT = 1";
+            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            CheckForKeyInput(sender, e);
+        }
+
+        private void NoteInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            CheckForKeyInput(sender, e);
+        }
+
+        private void CheckForKeyInput(object sender, KeyEventArgs e)
+        {
+            if ((ModifierKeys & Keys.Control) == Keys.Control && e.KeyCode == Keys.S && childNotesMenuDisplayed)
+            {
+                SaveCurrentNote();
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                if (childNotesMenuDisplayed)
+                    backToHeaderBtn_Click(sender, e);
+            }
+        }
+
+        private void ChildNotes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            string newCellName = (string)childNotesMenu.Rows[e.RowIndex].ItemArray[0]; 
+            ChangeCellName(newCellName, false, 0);
+        }
+
+        private void HeaderNotes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            string newCellName = (string)headerNotesMenu.Rows[e.RowIndex].ItemArray[0];
+            int cellID = e.RowIndex + 1;
+            ChangeCellName(newCellName, true, cellID);
+        }
+
+        private void ChangeCellName(string newCellName, bool isHeaderNoteCell, int cellID)
+        {
+            string query = isHeaderNoteCell ? $"UPDATE HeaderNotes SET title='{newCellName}' WHERE id={cellID}"
+                                            : $"UPDATE ChildNotes SET title='{newCellName}' WHERE id={currentChildNoteSelected}";
             dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
         }
     }

@@ -44,17 +44,18 @@
             // 
             // NoteInput
             // 
+            this.NoteInput.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NoteInput.Location = new System.Drawing.Point(281, 47);
             this.NoteInput.Name = "NoteInput";
-            this.NoteInput.Size = new System.Drawing.Size(736, 542);
+            this.NoteInput.Size = new System.Drawing.Size(1597, 954);
             this.NoteInput.TabIndex = 1;
             this.NoteInput.Text = "";
             this.NoteInput.Visible = false;
-            this.NoteInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteInput_KeyDown_1);
+            this.NoteInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteInput_KeyDown);
             // 
             // AddNote
             // 
-            this.AddNote.Location = new System.Drawing.Point(156, 585);
+            this.AddNote.Location = new System.Drawing.Point(159, 978);
             this.AddNote.Name = "AddNote";
             this.AddNote.Size = new System.Drawing.Size(96, 23);
             this.AddNote.TabIndex = 3;
@@ -81,16 +82,17 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.HeaderNotes.DefaultCellStyle = dataGridViewCellStyle1;
             this.HeaderNotes.GridColor = System.Drawing.SystemColors.Control;
-            this.HeaderNotes.Location = new System.Drawing.Point(0, 39);
+            this.HeaderNotes.Location = new System.Drawing.Point(15, 39);
             this.HeaderNotes.Name = "HeaderNotes";
             this.HeaderNotes.RowHeadersVisible = false;
-            this.HeaderNotes.Size = new System.Drawing.Size(240, 542);
+            this.HeaderNotes.Size = new System.Drawing.Size(240, 928);
             this.HeaderNotes.TabIndex = 4;
-            this.HeaderNotes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HeaderNotes_CellContentClick);
+            this.HeaderNotes.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HeaderNotes_CellContentDoubleClick);
+            this.HeaderNotes.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.HeaderNotes_CellValueChanged);
             // 
             // addNoteTitle
             // 
-            this.addNoteTitle.Location = new System.Drawing.Point(12, 587);
+            this.addNoteTitle.Location = new System.Drawing.Point(15, 980);
             this.addNoteTitle.Name = "addNoteTitle";
             this.addNoteTitle.Size = new System.Drawing.Size(138, 20);
             this.addNoteTitle.TabIndex = 5;
@@ -109,6 +111,7 @@
             // 
             // ChildNotes
             // 
+            this.ChildNotes.AllowUserToAddRows = false;
             this.ChildNotes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.ChildNotes.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.ChildNotes.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -126,15 +129,16 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ChildNotes.DefaultCellStyle = dataGridViewCellStyle2;
             this.ChildNotes.GridColor = System.Drawing.SystemColors.Control;
-            this.ChildNotes.Location = new System.Drawing.Point(3, 37);
+            this.ChildNotes.Location = new System.Drawing.Point(15, 39);
             this.ChildNotes.MultiSelect = false;
             this.ChildNotes.Name = "ChildNotes";
             this.ChildNotes.RowHeadersVisible = false;
             this.ChildNotes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.ChildNotes.Size = new System.Drawing.Size(240, 542);
+            this.ChildNotes.Size = new System.Drawing.Size(240, 928);
             this.ChildNotes.TabIndex = 7;
             this.ChildNotes.Visible = false;
             this.ChildNotes.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChildNotes_CellEnter);
+            this.ChildNotes.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChildNotes_CellValueChanged);
             // 
             // backToHeaderBtn
             // 
@@ -162,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1048, 645);
+            this.ClientSize = new System.Drawing.Size(1904, 1041);
             this.Controls.Add(this.resetdatabase);
             this.Controls.Add(this.backToHeaderBtn);
             this.Controls.Add(this.ChildNotes);
@@ -173,7 +177,9 @@
             this.Controls.Add(this.NoteInput);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChildNotes)).EndInit();
             this.ResumeLayout(false);
