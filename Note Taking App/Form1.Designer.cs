@@ -37,6 +37,7 @@
             this.SortBy = new System.Windows.Forms.ComboBox();
             this.ChildNotes = new System.Windows.Forms.DataGridView();
             this.backToHeaderBtn = new System.Windows.Forms.Button();
+            this.resetdatabase = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChildNotes)).BeginInit();
             this.SuspendLayout();
@@ -144,11 +145,23 @@
             this.backToHeaderBtn.UseVisualStyleBackColor = true;
             this.backToHeaderBtn.Click += new System.EventHandler(this.backToHeaderBtn_Click);
             // 
+            // resetdatabase
+            // 
+            this.resetdatabase.ForeColor = System.Drawing.Color.Red;
+            this.resetdatabase.Location = new System.Drawing.Point(339, 9);
+            this.resetdatabase.Name = "resetdatabase";
+            this.resetdatabase.Size = new System.Drawing.Size(75, 23);
+            this.resetdatabase.TabIndex = 9;
+            this.resetdatabase.Text = "Reset DB";
+            this.resetdatabase.UseVisualStyleBackColor = true;
+            this.resetdatabase.Click += new System.EventHandler(this.resetdatabase_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1048, 645);
+            this.Controls.Add(this.resetdatabase);
             this.Controls.Add(this.backToHeaderBtn);
             this.Controls.Add(this.ChildNotes);
             this.Controls.Add(this.SortBy);
@@ -175,6 +188,7 @@
         private System.Windows.Forms.ComboBox SortBy;
         private System.Windows.Forms.DataGridView ChildNotes;
         private System.Windows.Forms.Button backToHeaderBtn;
+        private System.Windows.Forms.Button resetdatabase;
     }
 }
 

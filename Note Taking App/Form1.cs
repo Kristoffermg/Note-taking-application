@@ -20,11 +20,13 @@ namespace Note_Taking_App
 
         string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
         bool headerNotesAreDisplayed = true;
+        int latestHeaderNoteId = 0;
         int currentHeaderNoteSelected = 1;
-        int currentChildNoteSelected = 0;
+        int currentChildNoteSelected = 1;
         Dictionary<int, string> allChildNotes = new Dictionary<int, string>();
         //Dictionary<int, string> allChildNotes = new Dictionary<int, string>();
         DataTable headerNotesMenu = new DataTable();
+        DataTable childNotesMenu = new DataTable();
         IDataAccess dataAccess = new DataAccess();
         public Form1()
         {
@@ -47,6 +49,10 @@ namespace Note_Taking_App
             }
 
             HeaderNotes.DataSource = headerNotesMenu;
+
+            query = "SELECT MAX(id) FROM HeaderNotes";
+
+            latestHeaderNoteId = headerNotesMenu.Rows.Count;
         }
 
         //private async void GetAllChildNotes()
@@ -60,42 +66,43 @@ namespace Note_Taking_App
         //    }
         //}
 
-        private void AddNote_Click(object sender, EventArgs e)
+        private async void AddNote_Click(object sender, EventArgs e)
         {
             if (addNoteTitle.Text.Length <= MAX_TITLE_CHARACTER_LENGTH)
             {
                 string query = "";
-                int orderid = GetOrderId();
                 if (headerNotesAreDisplayed)
                 {
-                    query = $"INSERT INTO HeaderNotes (title, orderid) VALUES('{addNoteTitle.Text}', {orderid + 1})";
-                    dataAccess.InsertData<HeaderNotes, dynamic>(query, new { }, connectionString);
                     headerNotesMenu.Rows.Add(addNoteTitle.Text);
+                    latestHeaderNoteId++;
+                    query = $"INSERT INTO HeaderNotes (title, orderid) VALUES('{addNoteTitle.Text}', {GetMaxOrderId(true) + 1})";
+                    await dataAccess.InsertData<HeaderNotes, dynamic>(query, new { }, connectionString);
 
-                    query = $"SELECT MAX(id) AS value FROM HeaderNotes";
-                    int headerID = dataAccess.LoadSingularDataValue(query, connectionString);
-
-                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({headerID}, 'New Note', '', 0)"; // TODO: change orderid value
-                    dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
+                    // the code below is for inserting a "New Note" automatically when you create a new header note. Will probably get deleted.
+                    //query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({headerID}, 'New Note', '', {GetMaxOrderId(false, headerID) + 1})"; 
+                    //await dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
 
                 }
-                else { 
-                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({currentHeaderNoteSelected}, 'New Note', '', 0)"; // TODO: change orderid value
-                    dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
+                else {
+                    int nextChildOrderId = GetMaxOrderId(false) + 1;
+                    childNotesMenu.Rows.Add(addNoteTitle.Text);
+                    allChildNotes.Add(nextChildOrderId, "");
+                    query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({currentHeaderNoteSelected}, '{addNoteTitle.Text}', '', {nextChildOrderId})"; // TODO: change orderid value
+                    await dataAccess.InsertData<ChildNotes, dynamic>(query, new { }, connectionString);
                 }
             }
         }
 
-        private int GetOrderId()
+        private int GetMaxOrderId(bool wantHeaderNoteOrderId)
         {
             int orderid = 1;
-            if(headerNotesAreDisplayed)
+            if(wantHeaderNoteOrderId)
             {
-                orderid = dataAccess.LoadSingularDataValue("SELECT MAX(orderid) AS value FROM HeaderNotes", connectionString);
+                orderid = Convert.ToInt32(dataAccess.LoadSingularDataValue($"SELECT MAX(orderid) AS value FROM HeaderNotes", connectionString));
             }
             else
             {
-                orderid = dataAccess.LoadSingularDataValue("SELECT MAX(orderid) AS value FROM ChildNotes", connectionString);
+                orderid = Convert.ToInt32(dataAccess.LoadSingularDataValue($"SELECT MAX(orderid) AS value FROM ChildNotes WHERE headerID={currentHeaderNoteSelected}", connectionString));
             }
             return orderid;
         }
@@ -155,33 +162,38 @@ namespace Note_Taking_App
             HeaderNotes.Visible = false;
             ChildNotes.Visible = true;
             backToHeaderBtn.Enabled = true;
-            NoteInput.Visible = true;
+            if(currentChildNotes.Count >= 1) NoteInput.Visible = true;
             DisplayChildNotes(currentChildNotes);
         }
 
         private void DisplayChildNotes(List<ChildNotes> currentChildNotes)
         {
-            DataTable childNotesMenu = new DataTable();
-            childNotesMenu.Columns.Add("Title");
+            if(childNotesMenu.Columns.Count == 0) childNotesMenu.Columns.Add("Title");
             foreach (ChildNotes childNote in currentChildNotes)
             {
                 childNotesMenu.Rows.Add(childNote.title);
                 allChildNotes.Add(childNote.orderid, childNote.content);
             }
-
+            var test = allChildNotes;
             ChildNotes.DataSource = childNotesMenu;
-            NoteInput.Text = allChildNotes[currentChildNoteSelected];
+            if(allChildNotes.Count >= 1)
+                NoteInput.Text = allChildNotes[currentChildNoteSelected];
         }
 
         private void ChildNotes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            currentChildNoteSelected = e.RowIndex;
+            currentChildNoteSelected = e.RowIndex + 1;
             DisplayChildNoteContent();
         }
 
         private void DisplayChildNoteContent()
         {
             NoteInput.Text = allChildNotes[currentChildNoteSelected];
+        }
+
+        private void DisplayChildNoteSelection()
+        {
+
         }
 
         private void NoteInput_KeyDown_1(object sender, KeyEventArgs e)
@@ -201,6 +213,24 @@ namespace Note_Taking_App
             NoteInput.Visible = false;
             NoteInput.Clear();
             allChildNotes.Clear();
+            childNotesMenu.Clear();
+        }
+
+        private void resetdatabase_Click(object sender, EventArgs e)
+        {
+            string query = "";
+
+            query = "DELETE FROM ChildNotes";
+            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+
+            query = "DELETE FROM HeaderNotes";
+            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+
+            query = "ALTER TABLE HeaderNotes AUTO_INCREMENT = 1";
+            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+
+            query = "ALTER TABLE ChildNotes AUTO_INCREMENT = 1";
+            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
         }
     }
 }

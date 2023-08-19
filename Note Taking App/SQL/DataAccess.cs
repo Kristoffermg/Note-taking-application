@@ -18,13 +18,24 @@ namespace Note_Taking_App.SQL
                 return rows.ToList();
             }
         }
-        public async void InsertData<T, U>(string query, U parameters, string connectionString)
+        public async Task InsertData<T, U>(string query, U parameters, string connectionString)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
                 await connection.QueryAsync<T>(query, parameters);
             }
         }
+        public async Task <int>LoadSingularDataValueAsync(string query, string connectionString)
+        {
+            using (IDbConnection connection = new MySqlConnection(connectionString))
+            {
+                var row = connection.Query(query);
+                dynamic result = row.SingleOrDefault();
+                if (result.value == null) return 0;
+                return result.value;
+            }
+        }
+
         public int LoadSingularDataValue(string query, string connectionString)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))

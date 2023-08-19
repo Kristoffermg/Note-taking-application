@@ -9,6 +9,7 @@ HIGH PRIORITY:
 MID PRIORITY:
 	1. Only change cursor for Datagrid when hovering over a cell 
 	2. Mark the current child note that is displayed 
+	3. Not allowing duplicate note names
 
 
 
