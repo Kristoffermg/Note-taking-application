@@ -2,14 +2,17 @@
 
 
 HIGH PRIORITY:
-	1. Separate the creation of new notes between header and child notes
+	1. (DONE) Separate the creation of new notes between header and child notes
+	2. Make settings page
+	3. Add a user based environment, where the notes are individual to each user
 
 
 
 MID PRIORITY:
 	1. Only change cursor for Datagrid when hovering over a cell 
-	2. Mark the current child note that is displayed 
+	2. (DONE) Mark the current child note that is displayed 
 	3. Not allowing duplicate note names
+	4. Give graphics to buttons
 
 
 
