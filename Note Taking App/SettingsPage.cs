@@ -16,5 +16,10 @@ namespace Note_Taking_App
         {
             InitializeComponent();
         }
+
+        private void applySettingsBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

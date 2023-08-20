@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Note_Taking_App.Data
+namespace Note_Taking_App.SqlData
 {
     public class ChildNotes
     {
@@ -14,9 +14,14 @@ namespace Note_Taking_App.Data
         public string content;
         public int orderid;
 
-        public ChildNotes(int id, int headerID, string title, string content, int orderid)
+        // This parameterless constructor is necessary for Dapper to materialize HeaderNotes with LoadData() calls
+        public ChildNotes()
         {
-            this.id = id;
+
+        }
+
+        public ChildNotes(int headerID, string title, string content, int orderid)
+        {
             this.headerID = headerID;
             this.title = title;
             this.content = content;

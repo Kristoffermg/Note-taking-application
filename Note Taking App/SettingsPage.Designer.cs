@@ -35,6 +35,7 @@
             this.fontLabel = new System.Windows.Forms.Label();
             this.topPanel = new System.Windows.Forms.Panel();
             this.fontDropdown = new System.Windows.Forms.ComboBox();
+            this.applySettingsBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fontSizeNumeric)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,11 +97,22 @@
             this.fontDropdown.Size = new System.Drawing.Size(121, 21);
             this.fontDropdown.TabIndex = 6;
             // 
+            // applySettingsBtn
+            // 
+            this.applySettingsBtn.Location = new System.Drawing.Point(298, 268);
+            this.applySettingsBtn.Name = "applySettingsBtn";
+            this.applySettingsBtn.Size = new System.Drawing.Size(75, 23);
+            this.applySettingsBtn.TabIndex = 7;
+            this.applySettingsBtn.Text = "Apply";
+            this.applySettingsBtn.UseVisualStyleBackColor = true;
+            this.applySettingsBtn.Click += new System.EventHandler(this.applySettingsBtn_Click);
+            // 
             // SettingsPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(385, 303);
+            this.Controls.Add(this.applySettingsBtn);
             this.Controls.Add(this.fontDropdown);
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.fontLabel);
@@ -125,5 +137,6 @@
         private System.Windows.Forms.Label fontLabel;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.ComboBox fontDropdown;
+        private System.Windows.Forms.Button applySettingsBtn;
     }
 }

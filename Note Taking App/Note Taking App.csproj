@@ -185,6 +185,7 @@
     </Compile>
     <Compile Include="SqlData\ChildNotes.cs" />
     <Compile Include="SqlData\HeaderNotes.cs" />
+    <Compile Include="SqlData\Settings.cs" />
     <Compile Include="SQL\DataAccess.cs" />
     <Compile Include="SQL\IDataAccess.cs" />
     <EmbeddedResource Include="Form1.resx">
