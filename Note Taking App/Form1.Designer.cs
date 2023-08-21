@@ -180,6 +180,7 @@
             this.settingsBtn.TabIndex = 10;
             this.settingsBtn.Text = "Settings";
             this.settingsBtn.UseVisualStyleBackColor = true;
+            this.settingsBtn.Click += new System.EventHandler(this.settingsBtn_Click);
             // 
             // topPanel
             // 

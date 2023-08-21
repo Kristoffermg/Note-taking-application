@@ -13,5 +13,14 @@ namespace Note_Taking_App.SqlData
         public int FontSize;
         public int AppSizeX;
         public int AppSizeY;
+
+        public Settings(string theme, string fontStyle, int fontSize, int appSizeX, int appSizeY)
+        {
+            Theme = theme;
+            FontStyle = fontStyle;
+            FontSize = fontSize;
+            AppSizeX = appSizeX;
+            AppSizeY = appSizeY;
+        }
     }
 }

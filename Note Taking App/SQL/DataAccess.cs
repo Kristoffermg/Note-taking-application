@@ -10,25 +10,15 @@ namespace Note_Taking_App.SQL
 {
     public class DataAccess : IDataAccess
     {
-        //public readonly string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
+        public readonly string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
 
-        public async Task<List<T>> LoadDataAsync<T, U>(string query, U parameters, string connectionString)
+        public async Task<List<T>> LoadDataAsync<T, U>(string query, U parameters)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
                 var rows = await connection.QueryAsync<T>(query, parameters);
 
                 return rows.ToList();
-            }
-        }
-
-        public List<ChildNotes> LoadData<T, U>(string query, U parameters, string connectionString)
-        {
-            using (IDbConnection connection = new MySqlConnection(connectionString))
-            {
-                var rows = connection.QueryAsync<T>(query, parameters);
-
-                return null;
             }
         }
 
@@ -42,6 +32,7 @@ namespace Note_Taking_App.SQL
             }
         }
 
+        // perhaps make the return value generic so it can return any type rather than just int, if necessary
         public async Task <int>LoadSingularDataValueAsync(string query, string connectionString)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))

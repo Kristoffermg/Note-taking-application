@@ -42,7 +42,7 @@ namespace Note_Taking_App
 
             IDataAccess dataAccess = new DataAccess();
             string query = "SELECT id, title FROM HeaderNotes;";
-            List<HeaderNotes> headerNotes = await dataAccess.LoadDataAsync<HeaderNotes, dynamic>(query, new { }, connectionString);
+            List<HeaderNotes> headerNotes = await dataAccess.LoadDataAsync<HeaderNotes, dynamic>(query, new { });
 
             foreach (HeaderNotes headerNote in headerNotes)
             {
@@ -56,7 +56,7 @@ namespace Note_Taking_App
         private async void GetSettings()
         {
             string query = "SELECT * FROM Settings"; 
-            List<Settings> settings = await dataAccess.LoadDataAsync<Settings, dynamic>(query, new { }, connectionString);
+            List<Settings> settings = await dataAccess.LoadDataAsync<Settings, dynamic>(query, new { });
 
 
         }
@@ -64,6 +64,13 @@ namespace Note_Taking_App
         public void ChangeFormLayout(string fontStyle, int fontSize, string theme)
         {
 
+        }
+
+        private void settingsBtn_Click(object sender, EventArgs e)
+        {
+            //Settings settings = new Settings();
+            SettingsPage settingsPage = new SettingsPage();
+            settingsPage.Show();
         }
 
         private async void AddNote_Click(object sender, EventArgs e)
@@ -176,7 +183,7 @@ namespace Note_Taking_App
             currentHeaderNoteSelected = e.RowIndex + 1;
 
             string query = $"SELECT * FROM ChildNotes WHERE headerID = @headerID";
-            List<ChildNotes> currentChildNotes = await dataAccess.LoadDataAsync<ChildNotes, dynamic>(query, new { headerID = currentHeaderNoteSelected }, connectionString);
+            List<ChildNotes> currentChildNotes = await dataAccess.LoadDataAsync<ChildNotes, dynamic>(query, new { headerID = currentHeaderNoteSelected });
 
             headerNotesAreDisplayed = false;
             HeaderNotes.Visible = false;

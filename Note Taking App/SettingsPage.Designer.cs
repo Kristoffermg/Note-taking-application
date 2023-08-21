@@ -58,6 +58,9 @@
             // ThemeDropdown
             // 
             this.ThemeDropdown.FormattingEnabled = true;
+            this.ThemeDropdown.Items.AddRange(new object[] {
+            "Bright",
+            "Dark"});
             this.ThemeDropdown.Location = new System.Drawing.Point(67, 144);
             this.ThemeDropdown.Name = "ThemeDropdown";
             this.ThemeDropdown.Size = new System.Drawing.Size(121, 21);
@@ -92,6 +95,10 @@
             // fontDropdown
             // 
             this.fontDropdown.FormattingEnabled = true;
+            this.fontDropdown.Items.AddRange(new object[] {
+            "Segoe UI",
+            "Arial",
+            "Century"});
             this.fontDropdown.Location = new System.Drawing.Point(66, 42);
             this.fontDropdown.Name = "fontDropdown";
             this.fontDropdown.Size = new System.Drawing.Size(121, 21);
