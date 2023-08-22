@@ -18,7 +18,6 @@ namespace Note_Taking_App
     {
         const int MAX_TITLE_CHARACTER_LENGTH = 25;
 
-        string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!;Allow User Variables=True";
         bool headerNotesAreDisplayed = true;
         bool childNotesMenuDisplayed = false;
         int latestHeaderNoteId = 0;

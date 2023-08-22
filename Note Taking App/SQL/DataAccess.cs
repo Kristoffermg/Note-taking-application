@@ -10,7 +10,8 @@ namespace Note_Taking_App.SQL
 {
     public class DataAccess : IDataAccess
     {
-        public readonly string connectionString = "Server=krishusdata.mysql.database.azure.com;Port=3306;database=NoteTakingApp;user id=kmg;password=krissupersecretpassword0!";
+        public readonly string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CRUDUser"].ConnectionString;
+
 
         public async Task<List<T>> LoadDataAsync<T, U>(string query, U parameters)
         {
