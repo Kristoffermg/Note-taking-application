@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsPage));
             this.fontSizeNumeric = new System.Windows.Forms.NumericUpDown();
             this.fontSizeLabel = new System.Windows.Forms.Label();
             this.ThemeDropdown = new System.Windows.Forms.ComboBox();
@@ -127,8 +128,9 @@
             this.Controls.Add(this.ThemeDropdown);
             this.Controls.Add(this.fontSizeLabel);
             this.Controls.Add(this.fontSizeNumeric);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SettingsPage";
-            this.Text = "SettingsPage";
+            this.Text = "Settings";
             ((System.ComponentModel.ISupportInitialize)(this.fontSizeNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

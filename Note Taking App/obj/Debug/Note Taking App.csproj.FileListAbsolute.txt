@@ -29,7 +29,6 @@ C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note Taking App.csproj.AssemblyReference.cache
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note Taking App.csproj.SuggestedBindingRedirects.cache
-C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note_Taking_App.Form1.resources
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note_Taking_App.Properties.Resources.resources
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note Taking App.csproj.GenerateResource.cache
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note Taking App.csproj.CoreCompileInputs.cache
@@ -50,3 +49,4 @@ C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\bin\Debug\System.Security.Cryptography.Pkcs.xml
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note Taking App.csproj.Fody.CopyLocal.cache
 C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note_Taking_App.SettingsPage.resources
+C:\Users\krist\Documents\C# scripts\Note Taking App\Note-taking-application\Note Taking App\obj\Debug\Note_Taking_App.MainApp.resources

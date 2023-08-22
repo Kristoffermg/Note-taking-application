@@ -22,5 +22,11 @@ namespace Note_Taking_App.SqlData
             AppSizeX = appSizeX;
             AppSizeY = appSizeY;
         }
+
+        public Settings(int appSizeX, int appSizeY)
+        {
+            AppSizeX = appSizeX;
+            AppSizeY = appSizeY;
+        }
     }
 }

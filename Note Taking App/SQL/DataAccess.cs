@@ -22,18 +22,26 @@ namespace Note_Taking_App.SQL
             }
         }
 
-        public async Task InsertData<T>(string query, T parameters, string connectionString)
+        public List<T> LoadData<T, U>(string query, U parameters)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
+                var rows = connection.Query<T>(query, parameters);
 
-                //await connection.ExecuteAsync(query);
+                return rows.ToList();
+            }
+        }
+
+        public async Task InsertData<T>(string query, T parameters)
+        {
+            using (IDbConnection connection = new MySqlConnection(connectionString))
+            {
                 await connection.ExecuteAsync(query, parameters);
             }
         }
 
         // perhaps make the return value generic so it can return any type rather than just int, if necessary
-        public async Task <int>LoadSingularDataValueAsync(string query, string connectionString)
+        public async Task <int>LoadSingularDataValueAsync(string query)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
@@ -44,7 +52,7 @@ namespace Note_Taking_App.SQL
             }
         }
 
-        public int LoadSingularDataValue<T>(string query, T parameters, string connectionString)
+        public int LoadSingularDataValue<T>(string query, T parameters)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
@@ -55,11 +63,11 @@ namespace Note_Taking_App.SQL
             }
         }
 
-        public async void UpdateData<U>(string query, U parameters, string connectionString)
+        public void UpdateData<U>(string query, U parameters)
         {
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
-                await connection.QueryAsync(query, parameters);
+                connection.Query(query, parameters);
             }
         }
     }

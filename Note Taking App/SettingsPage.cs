@@ -37,10 +37,21 @@ namespace Note_Taking_App
             fontDropdown.SelectedItem = settings.FontStyle;
             fontSizeNumeric.Value = settings.FontSize;
             ThemeDropdown.SelectedItem = settings.Theme;
-
         }
 
         private void applySettingsBtn_Click(object sender, EventArgs e)
+        {
+            string query = "UPDATE Settings SET Theme = @Theme, FontStyle = @FontStyle, FontSize = @FontSize;";
+            string _Theme = (string)ThemeDropdown.SelectedItem;
+            string _FontStyle = (string)fontDropdown.SelectedItem;
+            int _FontSize = (int)fontSizeNumeric.Value;
+
+            dataAccess.UpdateData(query, new { Theme = _Theme, FontStyle = _FontStyle, FontSize = _FontSize });
+            Program._MainApp.ChangeFormLayout(_Theme, _FontStyle, _FontSize);
+            ChangeFormLayout();
+        }
+
+        private void ChangeFormLayout()
         {
 
         }

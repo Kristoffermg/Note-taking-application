@@ -6,6 +6,8 @@ HIGH PRIORITY:
 	2. Make settings page
 	3. Make a new SQL account that only manages CRUD operations and use it in the connection string
 	4. Store connection string in App.config and run "git update-index --assume-unchanged App.config" to stop Git from monitoring changes to the App.config file
+	5. Automatically resize controls (https://www.youtube.com/watch?v=TTsyUclt-XU)
+	6. Apply unit testing to the project (need to practice TDD!)
 
 
 
@@ -14,9 +16,10 @@ MID PRIORITY:
 	2. (DONE) Mark the current child note that is displayed 
 	3. Not allowing duplicate note names
 	4. Give graphics to buttons
+	5. (DONE) Save the current note when closing the app, as well as the height and width of the app
+	6. Ability to delete notes, with a warning before it actually deletes (or perhaps it is still saved in db, but has a flag?)
 
 
 
 LOW PRIORITY:
 	1. Find another way to edit a cells name, so that you dont have to double click the header notes to open them, rather than single click
-	3. Add a user based environment, where the notes are individual to each user

@@ -6,7 +6,7 @@ namespace Note_Taking_App.nUnitTests
 {
     public class Form1Tests
     {
-        private Form1 _form1;
+        private MainApp _form1;
 
         private List<ChildNotes> childNotes1 = new List<ChildNotes>()
         {
@@ -18,7 +18,7 @@ namespace Note_Taking_App.nUnitTests
         [SetUp]
         public void Setup()
         {
-            _form1 = new Form1();
+            _form1 = new MainApp();
         }
 
         [Test]

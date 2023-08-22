@@ -1,6 +1,6 @@
 ﻿namespace Note_Taking_App
 {
-    partial class Form1
+    partial class MainApp
     {
         /// <summary>
         /// Required designer variable.
@@ -30,8 +30,9 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainApp));
             this.NoteInput = new System.Windows.Forms.RichTextBox();
-            this.AddNote = new System.Windows.Forms.Button();
+            this.AddNoteBtn = new System.Windows.Forms.Button();
             this.HeaderNotes = new System.Windows.Forms.DataGridView();
             this.addNoteTitle = new System.Windows.Forms.TextBox();
             this.SortBy = new System.Windows.Forms.ComboBox();
@@ -56,15 +57,15 @@
             this.NoteInput.Visible = false;
             this.NoteInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteInput_KeyDown);
             // 
-            // AddNote
+            // AddNoteBtn
             // 
-            this.AddNote.Location = new System.Drawing.Point(159, 541);
-            this.AddNote.Name = "AddNote";
-            this.AddNote.Size = new System.Drawing.Size(96, 23);
-            this.AddNote.TabIndex = 3;
-            this.AddNote.Text = "+";
-            this.AddNote.UseVisualStyleBackColor = true;
-            this.AddNote.Click += new System.EventHandler(this.AddNote_Click);
+            this.AddNoteBtn.Location = new System.Drawing.Point(159, 541);
+            this.AddNoteBtn.Name = "AddNoteBtn";
+            this.AddNoteBtn.Size = new System.Drawing.Size(96, 23);
+            this.AddNoteBtn.TabIndex = 3;
+            this.AddNoteBtn.Text = "Add";
+            this.AddNoteBtn.UseVisualStyleBackColor = true;
+            this.AddNoteBtn.Click += new System.EventHandler(this.AddNote_Click);
             // 
             // HeaderNotes
             // 
@@ -119,6 +120,7 @@
             this.ChildNotes.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.ChildNotes.BackgroundColor = System.Drawing.SystemColors.Control;
             this.ChildNotes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ChildNotes.CausesValidation = false;
             this.ChildNotes.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.ChildNotes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ChildNotes.ColumnHeadersVisible = false;
@@ -132,7 +134,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.ChildNotes.DefaultCellStyle = dataGridViewCellStyle2;
             this.ChildNotes.GridColor = System.Drawing.SystemColors.Control;
-            this.ChildNotes.Location = new System.Drawing.Point(15, 39);
+            this.ChildNotes.Location = new System.Drawing.Point(15, 47);
             this.ChildNotes.MultiSelect = false;
             this.ChildNotes.Name = "ChildNotes";
             this.ChildNotes.RowHeadersVisible = false;
@@ -146,11 +148,11 @@
             // backToHeaderBtn
             // 
             this.backToHeaderBtn.Enabled = false;
-            this.backToHeaderBtn.Location = new System.Drawing.Point(168, 13);
+            this.backToHeaderBtn.Location = new System.Drawing.Point(142, 13);
             this.backToHeaderBtn.Name = "backToHeaderBtn";
-            this.backToHeaderBtn.Size = new System.Drawing.Size(75, 23);
+            this.backToHeaderBtn.Size = new System.Drawing.Size(85, 20);
             this.backToHeaderBtn.TabIndex = 8;
-            this.backToHeaderBtn.Text = "<-";
+            this.backToHeaderBtn.Text = "Back";
             this.backToHeaderBtn.UseVisualStyleBackColor = true;
             this.backToHeaderBtn.Click += new System.EventHandler(this.backToHeaderBtn_Click);
             // 
@@ -174,7 +176,7 @@
             // 
             // settingsBtn
             // 
-            this.settingsBtn.Location = new System.Drawing.Point(779, 12);
+            this.settingsBtn.Location = new System.Drawing.Point(1248, 18);
             this.settingsBtn.Name = "settingsBtn";
             this.settingsBtn.Size = new System.Drawing.Size(75, 23);
             this.settingsBtn.TabIndex = 10;
@@ -190,7 +192,7 @@
             this.topPanel.Size = new System.Drawing.Size(1347, 14);
             this.topPanel.TabIndex = 11;
             // 
-            // Form1
+            // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -203,10 +205,12 @@
             this.Controls.Add(this.SortBy);
             this.Controls.Add(this.addNoteTitle);
             this.Controls.Add(this.HeaderNotes);
-            this.Controls.Add(this.AddNote);
+            this.Controls.Add(this.AddNoteBtn);
             this.Controls.Add(this.NoteInput);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "MainApp";
+            this.Text = "Note App";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainApp_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).EndInit();
@@ -219,7 +223,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox NoteInput;
-        private System.Windows.Forms.Button AddNote;
+        private System.Windows.Forms.Button AddNoteBtn;
         private System.Windows.Forms.DataGridView HeaderNotes;
         private System.Windows.Forms.TextBox addNoteTitle;
         private System.Windows.Forms.ComboBox SortBy;

@@ -14,7 +14,7 @@ using System.Collections;
 
 namespace Note_Taking_App
 {
-    public partial class Form1 : Form
+    public partial class MainApp : Form
     {
         const int MAX_TITLE_CHARACTER_LENGTH = 25;
 
@@ -29,7 +29,7 @@ namespace Note_Taking_App
         DataTable childNotesMenu = new DataTable();
         IDataAccess dataAccess = new DataAccess();
 
-        public Form1()
+        public MainApp()
         {
             InitializeComponent();
         }
@@ -39,6 +39,11 @@ namespace Note_Taking_App
             //GetAllChildNotes();
 
             headerNotesMenu.Columns.Add("Title");
+
+            //Settings settings = await GetSettings();
+            //ChangeFormLayout(settings.Theme, settings.FontStyle, settings.FontSize);
+            //Program._MainApp.Height = settings.AppSizeY;
+            //Program._MainApp.Width = settings.AppSizeX;
 
             IDataAccess dataAccess = new DataAccess();
             string query = "SELECT id, title FROM HeaderNotes;";
@@ -53,22 +58,129 @@ namespace Note_Taking_App
             latestHeaderNoteId = headerNotesMenu.Rows.Count;
         }
 
-        private async void GetSettings()
+        private async Task<Settings> GetSettings()
         {
             string query = "SELECT * FROM Settings"; 
             List<Settings> settings = await dataAccess.LoadDataAsync<Settings, dynamic>(query, new { });
 
-
+            return settings.FirstOrDefault();
         }
 
-        public void ChangeFormLayout(string fontStyle, int fontSize, string theme)
+        public void ChangeFormLayout(string theme, string fontStyle, int fontSize)
         {
+            Font menuFont = new Font(fontStyle, 18);
+            Font inputFont = new Font(fontStyle, 8);
+            Font noteFont = new Font(fontStyle, fontSize);
+            Font buttonFont = new Font(fontStyle, 8);
+            HeaderNotes.Font = menuFont;
+            ChildNotes.Font = menuFont;
+            SortBy.Font = inputFont;
+            addNoteTitle.Font = inputFont;
+            NoteInput.Font = noteFont;
+            backToHeaderBtn.Font = buttonFont;
 
+            if (theme == "Dark")
+                ChangeToDarkTheme();
+            else if (theme == "Bright")
+                ChangeToBrightTheme();
+        }
+
+        private void ChangeToDarkTheme()
+        {
+            Color dark = Color.FromArgb(40, 43, 48);
+            Color front = Color.FromArgb(92, 103, 132);
+            Color selectedBackColor = Color.FromArgb(92, 94, 104);
+            Color cellForeColor = Color.FromArgb(176, 179, 184);
+            Color textInputColor = Color.FromArgb(66, 69, 73);
+
+            Color dark1 = Color.FromArgb(66, 69, 73);
+            Color dark2 = Color.FromArgb(54, 57, 62);
+            Color dark3 = Color.FromArgb(40, 43, 48);
+            Color dark4 = Color.FromArgb(30, 33, 36);
+
+            BackColor = dark3;
+            HeaderNotes.BackgroundColor = dark2;
+            ChildNotes.BackgroundColor = dark2;
+            HeaderNotes.GridColor = dark2;
+            ChildNotes.GridColor = dark2;
+            HeaderNotes.DefaultCellStyle.BackColor = dark2;
+            ChildNotes.DefaultCellStyle.BackColor = dark2;
+            HeaderNotes.DefaultCellStyle.ForeColor = cellForeColor;
+            ChildNotes.DefaultCellStyle.ForeColor = cellForeColor;
+            HeaderNotes.DefaultCellStyle.SelectionBackColor = selectedBackColor;
+            ChildNotes.DefaultCellStyle.SelectionBackColor = selectedBackColor;
+            HeaderNotes.DefaultCellStyle.SelectionForeColor = Color.White;
+            ChildNotes.DefaultCellStyle.SelectionForeColor = Color.White;
+            NoteInput.BackColor = textInputColor;
+            NoteInput.ForeColor = Color.White;
+            NoteInput.BorderStyle = BorderStyle.None; 
+            SortBy.BackColor = dark;
+            SortBy.ForeColor = front;
+            addNoteTitle.BackColor = dark;
+            addNoteTitle.ForeColor = front;
+            topPanel.BackColor = Color.FromArgb(30, 33, 36);
+            backToHeaderBtn.BackColor = dark1;
+            backToHeaderBtn.ForeColor = Color.White;
+            backToHeaderBtn.FlatStyle = FlatStyle.Flat;
+            backToHeaderBtn.FlatAppearance.BorderColor = dark1;
+            backToHeaderBtn.AutoSize = true;
+            AddNoteBtn.BackColor = dark1;
+            AddNoteBtn.ForeColor = Color.White;
+            AddNoteBtn.FlatStyle = FlatStyle.Flat;
+            AddNoteBtn.FlatAppearance.BorderColor = dark1;
+            AddNoteBtn.AutoSize = true;
+            settingsBtn.BackColor = dark1;
+            settingsBtn.ForeColor = Color.White;
+            settingsBtn.FlatStyle = FlatStyle.Flat;
+            settingsBtn.FlatAppearance.BorderColor = dark1;
+            settingsBtn.AutoSize = true;
+            addNoteTitle.BackColor = dark1;
+            addNoteTitle.ForeColor = Color.White;
+        }
+
+
+        private void ChangeToBrightTheme()
+        {
+            BackColor = SystemColors.Control;
+            HeaderNotes.BackgroundColor = SystemColors.Control;
+            ChildNotes.BackgroundColor = SystemColors.Control;
+            HeaderNotes.GridColor = SystemColors.Control;
+            ChildNotes.GridColor = SystemColors.Control;
+            HeaderNotes.DefaultCellStyle.BackColor = SystemColors.Control;
+            ChildNotes.DefaultCellStyle.BackColor = SystemColors.Control;
+            HeaderNotes.DefaultCellStyle.ForeColor = SystemColors.ControlDarkDark;
+            ChildNotes.DefaultCellStyle.ForeColor = SystemColors.ControlDarkDark;
+            HeaderNotes.DefaultCellStyle.SelectionBackColor = SystemColors.ControlLightLight;
+            ChildNotes.DefaultCellStyle.SelectionBackColor = SystemColors.ControlLightLight;
+            HeaderNotes.DefaultCellStyle.SelectionForeColor = SystemColors.ControlDarkDark;
+            ChildNotes.DefaultCellStyle.SelectionForeColor = SystemColors.ControlDarkDark;
+            NoteInput.BackColor = SystemColors.Window;
+            NoteInput.ForeColor = Color.Black;
+            NoteInput.BorderStyle = BorderStyle.None;
+            SortBy.BackColor = SystemColors.Window;
+            SortBy.ForeColor = SystemColors.WindowText;
+            addNoteTitle.BackColor = SystemColors.Window;
+            addNoteTitle.ForeColor = SystemColors.WindowText;
+            topPanel.BackColor = Color.FromArgb(30, 33, 36);
+            backToHeaderBtn.BackColor = Color.White;
+            backToHeaderBtn.ForeColor = SystemColors.ControlText;
+            backToHeaderBtn.FlatStyle = FlatStyle.Flat;
+            backToHeaderBtn.FlatAppearance.BorderColor = SystemColors.Control;
+            backToHeaderBtn.AutoSize = true;
+            AddNoteBtn.BackColor = Color.White;
+            AddNoteBtn.ForeColor = SystemColors.ControlText;
+            AddNoteBtn.FlatStyle = FlatStyle.Flat;
+            AddNoteBtn.FlatAppearance.BorderColor = SystemColors.Control;
+            AddNoteBtn.AutoSize = true;
+            settingsBtn.BackColor = Color.White;
+            settingsBtn.ForeColor = SystemColors.ControlText;
+            settingsBtn.FlatStyle = FlatStyle.Flat;
+            settingsBtn.FlatAppearance.BorderColor = SystemColors.Control;
+            settingsBtn.AutoSize = true;
         }
 
         private void settingsBtn_Click(object sender, EventArgs e)
         {
-            //Settings settings = new Settings();
             SettingsPage settingsPage = new SettingsPage();
             settingsPage.Show();
         }
@@ -84,7 +196,7 @@ namespace Note_Taking_App
                     latestHeaderNoteId++;
 
                     query = "INSERT INTO HeaderNotes (title, orderid) VALUES(@title, @orderid);";
-                    await dataAccess.InsertData(query, new { title = addNoteTitle.Text, orderid = GetMaxOrderId(true) + 1}, connectionString);
+                    await dataAccess.InsertData(query, new { title = addNoteTitle.Text, orderid = GetMaxOrderId(true) + 1});
 
                     // the code below is for inserting a "New Note" automatically when you create a new header note. Will probably get deleted.
                     //query = $"INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES({headerID}, 'New Note', '', {GetMaxOrderId(false, headerID) + 1})"; 
@@ -100,7 +212,7 @@ namespace Note_Taking_App
                         NoteInput.Visible = true;
 
                         query = "INSERT INTO ChildNotes (headerID, title, content, orderid) VALUES(@headerID, @title, @content, @orderid);"; // TODO: change orderid value
-                        await dataAccess.InsertData(query, new { headerID = currentChildNoteSelected, title = addNoteTitle.Text, content = "", orderid = nextChildOrderId }, connectionString);
+                        await dataAccess.InsertData(query, new { headerID = currentHeaderNoteSelected, title = addNoteTitle.Text, content = "", orderid = nextChildOrderId });
                     }
                     catch(Exception ex)
                     {
@@ -115,11 +227,11 @@ namespace Note_Taking_App
             int orderid = 1;
             if(wantHeaderNoteOrderId)
             {
-                orderid = Convert.ToInt32(dataAccess.LoadSingularDataValue($"SELECT MAX(orderid) AS value FROM HeaderNotes", new { }, connectionString));
+                orderid = Convert.ToInt32(dataAccess.LoadSingularDataValue($"SELECT MAX(orderid) AS value FROM HeaderNotes", new { }));
             }
             else
             {
-                orderid = Convert.ToInt32(dataAccess.LoadSingularDataValue($"SELECT MAX(orderid) AS value FROM ChildNotes WHERE headerID=@headerID", new {headerID = currentHeaderNoteSelected}, connectionString));
+                orderid = Convert.ToInt32(dataAccess.LoadSingularDataValue($"SELECT MAX(orderid) AS value FROM ChildNotes WHERE headerID=@headerID", new {headerID = currentHeaderNoteSelected}));
             }
             return orderid;
         }
@@ -155,7 +267,7 @@ namespace Note_Taking_App
         private void SaveCurrentNote()
         {
             string query = $"UPDATE ChildNotes SET content=@content WHERE headerID=@headerID AND orderid=@orderid";
-            dataAccess.UpdateData<dynamic>(query, new { content = NoteInput.Text, headerID = currentHeaderNoteSelected, orderid = currentChildNoteSelected }, connectionString);
+            dataAccess.UpdateData<dynamic>(query, new { content = NoteInput.Text, headerID = currentHeaderNoteSelected, orderid = currentChildNoteSelected });
 
             allChildNotes[currentChildNoteSelected] = NoteInput.Text;
 
@@ -182,7 +294,7 @@ namespace Note_Taking_App
         {
             currentHeaderNoteSelected = e.RowIndex + 1;
 
-            string query = $"SELECT * FROM ChildNotes WHERE headerID = @headerID";
+            string query = $"SELECT * FROM ChildNotes WHERE headerID = @headerID;";
             List<ChildNotes> currentChildNotes = await dataAccess.LoadDataAsync<ChildNotes, dynamic>(query, new { headerID = currentHeaderNoteSelected });
 
             headerNotesAreDisplayed = false;
@@ -225,17 +337,17 @@ namespace Note_Taking_App
         {
             string query = "";
 
-            query = "DELETE FROM ChildNotes";
-            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+            query = "DELETE FROM ChildNotes;";
+            dataAccess.UpdateData<dynamic>(query, new { });
 
-            query = "DELETE FROM HeaderNotes";
-            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+            query = "DELETE FROM HeaderNotes;";
+            dataAccess.UpdateData<dynamic>(query, new { });
 
-            query = "ALTER TABLE HeaderNotes AUTO_INCREMENT = 1";
-            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+            query = "ALTER TABLE HeaderNotes AUTO_INCREMENT = 1;";
+            dataAccess.UpdateData<dynamic>(query, new { });
 
-            query = "ALTER TABLE ChildNotes AUTO_INCREMENT = 1";
-            dataAccess.UpdateData<dynamic>(query, new { }, connectionString);
+            query = "ALTER TABLE ChildNotes AUTO_INCREMENT = 1;";
+            dataAccess.UpdateData<dynamic>(query, new { });
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -277,9 +389,21 @@ namespace Note_Taking_App
         private void ChangeCellName(string newCellName, bool isHeaderNoteCell, int cellID)
         {
             int id = isHeaderNoteCell ? cellID : currentHeaderNoteSelected;
-            string query = isHeaderNoteCell ? "UPDATE HeaderNotes SET title='{newCellName}' WHERE id=@id"
-                                            : "UPDATE ChildNotes SET title='{newCellName}' WHERE id=@id";
-            dataAccess.UpdateData<dynamic>(query, new { id = id }, connectionString);
+            string query = isHeaderNoteCell ? "UPDATE HeaderNotes SET title='{newCellName}' WHERE id=@id;"
+                                            : "UPDATE ChildNotes SET title='{newCellName}' WHERE id=@id;";
+            dataAccess.UpdateData<dynamic>(query, new { id = id });
+        }
+
+        private void MainApp_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string query = "UPDATE Settings SET AppSizeX = @AppSizeX, AppSizeY = @AppSizeY;";
+            dataAccess.UpdateData<dynamic>(query, new { AppSizeX = this.Width, AppSizeY = this.Height });
+
+            if(NoteInput.Text != String.Empty)
+            {
+                query = "UPDATE ChildNotes SET content=@content WHERE headerID=@headerID AND orderid=@orderid";
+                dataAccess.UpdateData<dynamic>(query, new { content = NoteInput.Text, headerID = currentHeaderNoteSelected, orderid = currentChildNoteSelected });
+            }
         }
     }
 }
