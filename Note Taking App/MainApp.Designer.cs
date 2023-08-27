@@ -35,13 +35,13 @@
             this.AddNoteBtn = new System.Windows.Forms.Button();
             this.HeaderNotes = new System.Windows.Forms.DataGridView();
             this.addNoteTitle = new System.Windows.Forms.TextBox();
-            this.SortBy = new System.Windows.Forms.ComboBox();
             this.ChildNotes = new System.Windows.Forms.DataGridView();
             this.backToHeaderBtn = new System.Windows.Forms.Button();
             this.resetdatabase = new System.Windows.Forms.Button();
             this.mySqlCommand1 = new MySql.Data.MySqlClient.MySqlCommand();
             this.settingsBtn = new System.Windows.Forms.Button();
             this.topPanel = new System.Windows.Forms.Panel();
+            this.openedNote = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderNotes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChildNotes)).BeginInit();
             this.SuspendLayout();
@@ -55,13 +55,14 @@
             this.NoteInput.TabIndex = 1;
             this.NoteInput.Text = "";
             this.NoteInput.Visible = false;
+            this.NoteInput.TextChanged += new System.EventHandler(this.NoteInput_TextChanged);
             this.NoteInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteInput_KeyDown);
             // 
             // AddNoteBtn
             // 
             this.AddNoteBtn.Location = new System.Drawing.Point(159, 541);
             this.AddNoteBtn.Name = "AddNoteBtn";
-            this.AddNoteBtn.Size = new System.Drawing.Size(96, 23);
+            this.AddNoteBtn.Size = new System.Drawing.Size(84, 23);
             this.AddNoteBtn.TabIndex = 3;
             this.AddNoteBtn.Text = "Add";
             this.AddNoteBtn.UseVisualStyleBackColor = true;
@@ -89,7 +90,7 @@
             this.HeaderNotes.Location = new System.Drawing.Point(15, 39);
             this.HeaderNotes.Name = "HeaderNotes";
             this.HeaderNotes.RowHeadersVisible = false;
-            this.HeaderNotes.Size = new System.Drawing.Size(228, 499);
+            this.HeaderNotes.Size = new System.Drawing.Size(228, 496);
             this.HeaderNotes.TabIndex = 4;
             this.HeaderNotes.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HeaderNotes_CellContentDoubleClick);
             this.HeaderNotes.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.HeaderNotes_CellValueChanged);
@@ -101,17 +102,6 @@
             this.addNoteTitle.Size = new System.Drawing.Size(138, 20);
             this.addNoteTitle.TabIndex = 5;
             this.addNoteTitle.KeyDown += new System.Windows.Forms.KeyEventHandler(this.addNoteTitle_KeyDown);
-            // 
-            // SortBy
-            // 
-            this.SortBy.FormattingEnabled = true;
-            this.SortBy.Items.AddRange(new object[] {
-            "Custom",
-            "Alphabetically"});
-            this.SortBy.Location = new System.Drawing.Point(15, 12);
-            this.SortBy.Name = "SortBy";
-            this.SortBy.Size = new System.Drawing.Size(121, 21);
-            this.SortBy.TabIndex = 6;
             // 
             // ChildNotes
             // 
@@ -139,7 +129,7 @@
             this.ChildNotes.Name = "ChildNotes";
             this.ChildNotes.RowHeadersVisible = false;
             this.ChildNotes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.ChildNotes.Size = new System.Drawing.Size(240, 499);
+            this.ChildNotes.Size = new System.Drawing.Size(240, 488);
             this.ChildNotes.TabIndex = 7;
             this.ChildNotes.Visible = false;
             this.ChildNotes.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChildNotes_CellEnter);
@@ -148,9 +138,9 @@
             // backToHeaderBtn
             // 
             this.backToHeaderBtn.Enabled = false;
-            this.backToHeaderBtn.Location = new System.Drawing.Point(142, 13);
+            this.backToHeaderBtn.Location = new System.Drawing.Point(15, 6);
             this.backToHeaderBtn.Name = "backToHeaderBtn";
-            this.backToHeaderBtn.Size = new System.Drawing.Size(85, 20);
+            this.backToHeaderBtn.Size = new System.Drawing.Size(228, 20);
             this.backToHeaderBtn.TabIndex = 8;
             this.backToHeaderBtn.Text = "Back";
             this.backToHeaderBtn.UseVisualStyleBackColor = true;
@@ -159,12 +149,13 @@
             // resetdatabase
             // 
             this.resetdatabase.ForeColor = System.Drawing.Color.Red;
-            this.resetdatabase.Location = new System.Drawing.Point(339, 9);
+            this.resetdatabase.Location = new System.Drawing.Point(1167, 19);
             this.resetdatabase.Name = "resetdatabase";
             this.resetdatabase.Size = new System.Drawing.Size(75, 23);
             this.resetdatabase.TabIndex = 9;
             this.resetdatabase.Text = "Reset DB";
             this.resetdatabase.UseVisualStyleBackColor = true;
+            this.resetdatabase.Visible = false;
             this.resetdatabase.Click += new System.EventHandler(this.resetdatabase_Click);
             // 
             // mySqlCommand1
@@ -192,17 +183,27 @@
             this.topPanel.Size = new System.Drawing.Size(1347, 14);
             this.topPanel.TabIndex = 11;
             // 
+            // openedNote
+            // 
+            this.openedNote.AutoSize = true;
+            this.openedNote.Location = new System.Drawing.Point(288, 10);
+            this.openedNote.Name = "openedNote";
+            this.openedNote.Size = new System.Drawing.Size(33, 13);
+            this.openedNote.TabIndex = 12;
+            this.openedNote.Text = "None";
+            this.openedNote.Visible = false;
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1335, 573);
+            this.Controls.Add(this.openedNote);
             this.Controls.Add(this.topPanel);
             this.Controls.Add(this.settingsBtn);
             this.Controls.Add(this.resetdatabase);
             this.Controls.Add(this.backToHeaderBtn);
             this.Controls.Add(this.ChildNotes);
-            this.Controls.Add(this.SortBy);
             this.Controls.Add(this.addNoteTitle);
             this.Controls.Add(this.HeaderNotes);
             this.Controls.Add(this.AddNoteBtn);
@@ -226,13 +227,13 @@
         private System.Windows.Forms.Button AddNoteBtn;
         private System.Windows.Forms.DataGridView HeaderNotes;
         private System.Windows.Forms.TextBox addNoteTitle;
-        private System.Windows.Forms.ComboBox SortBy;
         private System.Windows.Forms.DataGridView ChildNotes;
         private System.Windows.Forms.Button backToHeaderBtn;
         private System.Windows.Forms.Button resetdatabase;
         private MySql.Data.MySqlClient.MySqlCommand mySqlCommand1;
         private System.Windows.Forms.Button settingsBtn;
         private System.Windows.Forms.Panel topPanel;
+        private System.Windows.Forms.Label openedNote;
     }
 }
 

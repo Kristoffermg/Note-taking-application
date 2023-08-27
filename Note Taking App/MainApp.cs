@@ -71,12 +71,13 @@ namespace Note_Taking_App
             Font inputFont = new Font(fontStyle, 8);
             Font noteFont = new Font(fontStyle, fontSize);
             Font buttonFont = new Font(fontStyle, 8);
+
             HeaderNotes.Font = menuFont;
             ChildNotes.Font = menuFont;
-            SortBy.Font = inputFont;
             addNoteTitle.Font = inputFont;
             NoteInput.Font = noteFont;
             backToHeaderBtn.Font = buttonFont;
+            openedNote.Font = menuFont;
 
             if (theme == "Dark")
                 ChangeToDarkTheme();
@@ -84,6 +85,7 @@ namespace Note_Taking_App
                 ChangeToBrightTheme();
         }
 
+        #region Themes
         private void ChangeToDarkTheme()
         {
             Color dark = Color.FromArgb(40, 43, 48);
@@ -113,8 +115,6 @@ namespace Note_Taking_App
             NoteInput.BackColor = textInputColor;
             NoteInput.ForeColor = Color.White;
             NoteInput.BorderStyle = BorderStyle.None; 
-            SortBy.BackColor = dark;
-            SortBy.ForeColor = front;
             addNoteTitle.BackColor = dark;
             addNoteTitle.ForeColor = front;
             topPanel.BackColor = Color.FromArgb(30, 33, 36);
@@ -135,6 +135,7 @@ namespace Note_Taking_App
             settingsBtn.AutoSize = true;
             addNoteTitle.BackColor = dark1;
             addNoteTitle.ForeColor = Color.White;
+            openedNote.ForeColor = Color.White;
         }
 
 
@@ -156,8 +157,6 @@ namespace Note_Taking_App
             NoteInput.BackColor = SystemColors.Window;
             NoteInput.ForeColor = Color.Black;
             NoteInput.BorderStyle = BorderStyle.None;
-            SortBy.BackColor = SystemColors.Window;
-            SortBy.ForeColor = SystemColors.WindowText;
             addNoteTitle.BackColor = SystemColors.Window;
             addNoteTitle.ForeColor = SystemColors.WindowText;
             topPanel.BackColor = Color.FromArgb(30, 33, 36);
@@ -176,7 +175,9 @@ namespace Note_Taking_App
             settingsBtn.FlatStyle = FlatStyle.Flat;
             settingsBtn.FlatAppearance.BorderColor = SystemColors.Control;
             settingsBtn.AutoSize = true;
+            openedNote.ForeColor = SystemColors.ControlText;
         }
+        #endregion
 
         private void settingsBtn_Click(object sender, EventArgs e)
         {
@@ -245,19 +246,6 @@ namespace Note_Taking_App
             }
         }
 
-
-        private void SortBy_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedSortBy = SortBy.Text;
-            switch(selectedSortBy)
-            {
-                case "Custom":
-                    break;
-                case "Alphabetically":
-                    break;
-            }
-        }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveCurrentNote();
@@ -300,6 +288,8 @@ namespace Note_Taking_App
             HeaderNotes.Visible = false;
             ChildNotes.Visible = true;
             backToHeaderBtn.Enabled = true;
+            openedNote.Text = headerNotesMenu.Rows[e.RowIndex]["Title"].ToString();
+            openedNote.Visible = true;
             if (currentChildNotes.Count >= 1) NoteInput.Visible = true;
             DisplayChildNotes(currentChildNotes);
         }
@@ -313,8 +303,6 @@ namespace Note_Taking_App
 
         private void DisplayChildNoteContent()
         {
-            var test1 = allChildNotes;
-            int test2 = currentChildNoteSelected;
             NoteInput.Text = allChildNotes[currentChildNoteSelected];
         }
 
@@ -403,6 +391,11 @@ namespace Note_Taking_App
                 query = "UPDATE ChildNotes SET content=@content WHERE headerID=@headerID AND orderid=@orderid";
                 dataAccess.UpdateData<dynamic>(query, new { content = NoteInput.Text, headerID = currentHeaderNoteSelected, orderid = currentChildNoteSelected });
             }
+        }
+
+        private void NoteInput_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
